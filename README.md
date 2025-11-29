@@ -24,7 +24,7 @@ Chaque dossier ci-dessous correspond à un article de fond publié sur notre blo
 
 | Dossier | Description du Projet | Lien vers l'Article du Blog |
 | :--- | :--- | :--- |
-| `analyse_ohlcv_bitcoin/` | Notre premier notebook pour l'analyse des **prix** Bitcoin à 5 secondes. Vérification des timestamps et corrélation OHLCV. | **[ArticleOHLCV]: https://market5s.com/blogs/trading-data/analyse-ohlcv-bitcoin-a-5-secondes-notre-premier-notebook-kaggle** |
+| `analyse_ohlcv_bitcoin/` | Notre premier notebook pour l'analyse des **prix** Bitcoin à 5 secondes. Vérification des timestamps et corrélation OHLCV. | **[ArticleOHLCV]: (https://market5s.com/blogs/trading-data/analyse-ohlcv-bitcoin-a-5-secondes-notre-premier-notebook-kaggle)** |
 | `bot_de_trading_A_a_Z/` | Le code complet d'un bot de trading. De l'acquisition des données à la stratégie d'exécution. | **[Lien vers le Bot de Trading (futur)]** |
 | `verification_continuite/`| Fonctions Python pour garantir l'intégrité de vos données de **prix** historiques. | **[Lien vers l'article sur la continuité des données]** |
 
