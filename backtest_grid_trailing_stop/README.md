@@ -3,8 +3,8 @@
 Ce projet contient les scripts Python pour la stratégie du Trailing Stop.
 
 Pour comprendre la méthodologie utilisée, consultez notre article détaillé 
-sur [Market5s][ArticleOHLCV]
+sur [Market5s][ArticleBacktest]
 Vous pouvez également nous suivre sur [X/Twitter][Market5sTwitter]
 
-[ArticleOHLCV]: https://market5s.com/blogs/trading-data-dev/comment-optimiser-votre-prix-dentree-la-strategie-du-trailing-stop
+[ArticleBacktest]: https://market5s.com/blogs/trading-data-dev/comment-optimiser-votre-prix-dentree-la-strategie-du-trailing-stop
 [Market5sTwitter]: https://x.com/market5s
