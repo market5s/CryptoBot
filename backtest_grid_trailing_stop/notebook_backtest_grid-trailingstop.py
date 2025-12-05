@@ -8,7 +8,7 @@ from matplotlib.gridspec import GridSpec
 ### Constante : Pourcentage Trailing Stop
 PCTTRAILINGSTOP = 0.008
 ### Après achat, prix initial de vente
-PRIXINITSELL = 1.01
+PRIXINITSELL = 1.02
 ### A partir du prix max visualisé, potentiel d'achat à 99% du prix max
 PCTINITPRICEMAX = 0.99
 
@@ -78,7 +78,7 @@ def backtestSimple(candles):
     for i, c in enumerate(candles):
         ### Calcul du prix max visualisé
         maxPrice = max(c.high, maxPrice)
-        ### A partir du prix max visualisé, potentiel d'achat à 99% du prix max. Exemple Prix 100.000 => il faut que le prix atteinge 99.000 pour démarrer la phase d'achat.
+        ### A partir du prix max visualisé, potentiel d'achat à 99% du prix max. Exemple Prix 100000 => il faut que le prix atteinge 99000 pour démarrer la phase d'achat.
         buyPrice = maxPrice * PCTINITPRICEMAX
 
         if not buy:
@@ -87,9 +87,9 @@ def backtestSimple(candles):
                 buy = True
                 ### Calcul rapide du nombre de BTC acheté.
                 BTC = balance / buyPrice
-                ### Initialisation de notre prix de vente. Achat à 98882, prix de vente : 98882 * 1.04 (pctPrixInitialVente) = 102837
+                ### Initialisation de notre prix de vente. Achat à 99000, prix de vente : 99000 * 1.02 (pctPrixInitialVente) = 100980
                 sellPrice = buyPrice * PRIXINITSELL
-                print(f"Achat au prix de {buyPrice}, Prix de revente au moins à {sellPrice}")
+                print(f"{c.timestamp} - Achat au prix de {buyPrice}, Prix de revente au moins à {sellPrice}")
 
                 ### valeur pour graphique.
                 buy_idx.append(i)
@@ -97,17 +97,17 @@ def backtestSimple(candles):
         
         if buy :
             if c.high > sellPrice:
-                ### Oui, le prix est repassé au dessus, vente réalisé.
+                ### Oui, le prix est repassé au dessus du prix de 100980, vente réalisé.
                 sell = True
                 ### Calcul rapide de la balance après vente du BTC au prix
                 balance = BTC * sellPrice
-                print(f"Vente au prix de {sellPrice} | {c.high} | {c.timestamp}")
+                print(f"{c.timestamp} - Vente au prix de {sellPrice}")
 
                 ### Valeur pour graphique
                 sell_idx.append(i)
                 sell_price.append(sellPrice)
         
-        ### Une vente a t'elle eu lieu ?
+        ### Une vente a t'elle eue lieu ?
         if sell:
             ### Oui, réinitialisation complète de toutes les variables d'achat et de vente.
             maxPrice = 0.0
@@ -122,7 +122,7 @@ def backtestSimple(candles):
         equity_idx.append(i)
         equity_curve.append(equity)
 
-    print(f"Balance : {balance}, BTC : {BTC}")
+    print(f"Balance : {balance}")
 
     return {
         "balance": balance,
@@ -143,7 +143,7 @@ def backtestTrailing(candles):
     ### Initialisation des variables d'achat
     ### Entry Low Price : Le prix le plus bas atteint.
     EntryLowPrice = 0.0
-    ### Trailing Stop : On prend le prix le plus bas (EntryLowPrice) et on y ajoute 0.5%
+    ### Trailing Stop : On prend le prix le plus bas (EntryLowPrice) et on y ajoute 0.8%
     TrailingStopBuy = 0.0
     ### Est-ce que le programme a acheté ?
     buy = False
@@ -151,7 +151,7 @@ def backtestTrailing(candles):
     ### Initialisation des variables de vente.
     ### Entry Max Price : Le prix le plus haut atteint
     EntryMaxPrice = 0.0
-    ### Trailing Stop : On prend le prix le plus haut (EntrymaxPrice) et on y soustrait 0.5%
+    ### Trailing Stop : On prend le prix le plus haut (EntrymaxPrice) et on y soustrait 0.8%
     TrailingStopSell = 0.0
     ### Est-ce que le programme a vendu
     sell = False
@@ -177,7 +177,7 @@ def backtestTrailing(candles):
     for i, c in enumerate(candles):
         ### Calcul du prix max visualisé
         maxPrice = max(c.high, maxPrice)
-        ### A partir du prix max visualisé, potentiel d'achat à 99% du prix max. Exemple Prix 100.000 => il faut que le prix atteinge 99.000 pour démarrer la phase d'achat.
+        ### A partir du prix max visualisé, potentiel d'achat à 99% du prix max. Exemple Prix 100000 => il faut que le prix atteinge 99000 pour démarrer la phase d'achat.
         buyPrice = maxPrice * PCTINITPRICEMAX
 
         ### pas encore acheté ? Calcul en cours
@@ -186,7 +186,7 @@ def backtestTrailing(candles):
             if TrailingStopBuy == 0 and c.low < buyPrice:
                 ### le prix le plus bas est actuellement c.low, initialisation de EntryLowPrice
                 EntryLowPrice = c.low
-                ### Calcul du Trailing Stop Buy, 98500 * (1 + 0.009) (PCTTRAILINGSTOP) = 99386
+                ### Calcul du Trailing Stop Buy, 98500 * (1 + 0.008) (PCTTRAILINGSTOP) = 99288
                 TrailingStopBuy = EntryLowPrice * (1 + PCTTRAILINGSTOP)
 
             ### Trailing Stop supérieur à 0, le programme est en phase d'achat. Trailing Stop positionné
@@ -195,19 +195,19 @@ def backtestTrailing(candles):
                 if c.low < EntryLowPrice:
                     ### c.low est inférieur à notre entrée Low Price, on met à jour EntryLowPrice avec la valeur la plus basse du prix 98000
                     EntryLowPrice = c.low
-                    ### Recalcul du Trailing Stop suivant la tendance vers le bas 98000 * (1 + 0.009) (PCTTRAILINGSTOP) = 98882
+                    ### Recalcul du Trailing Stop suivant la tendance vers le bas 98000 * (1 + 0.008) (PCTTRAILINGSTOP) = 98784
                     TrailingStopBuy = EntryLowPrice * (1 + PCTTRAILINGSTOP)
-                    #print(f"Changement de la valeur du Stop Loss Achat - Trailing Stop {c.timestamp} | {TrailingStopBuy}")
+                    print(f"{c.timestamp} - Changement de la valeur du Stop Loss Achat - Trailing Stop : {TrailingStopBuy}")
 
-                ### Le prix remonte, est-ce que le prix max de la bougie est au dessus de 98882
+                ### Le prix remonte, est-ce que le prix max de la bougie est au dessus de 98784
                 if c.high > TrailingStopBuy:
                     ### Oui, le prix est repassé au dessus, achat réalisé.
                     buy = True
                     ### Calcul rapide du nombre de BTC acheté.
                     BTC = balance / TrailingStopBuy
-                    ### Initialisation de notre prix de vente. Achat à 98882, prix de vente : 98882 * 1.04 (PRIXINITSELL) = 102837
+                    ### Initialisation de notre prix de vente. Achat à 98784, prix de vente : 98784 * 1.02 (PRIXINITSELL) = 100760
                     sellPrice = TrailingStopBuy * PRIXINITSELL * (1 + PCTTRAILINGSTOP)
-                    print(f"Achat au prix de {TrailingStopBuy}, Prix de revente au moins à {sellPrice}, Stop loss {sellPrice * (1 - PCTTRAILINGSTOP)}")
+                    print(f"{c.timestamp} - Achat au prix de {TrailingStopBuy}, Prix de revente au moins à {sellPrice}, Stop loss {sellPrice * (1 - PCTTRAILINGSTOP)}")
 
                     ### valeur pour graphique.
                     buy_idx.append(i)
@@ -215,35 +215,35 @@ def backtestTrailing(candles):
         
         ### Si achat réalisé. vente en cours...
         if buy:
-            ### TrailingStop pas encore initialisé. Le prix haut est-il au dessus de notre prix de vente ? 103000
+            ### TrailingStop pas encore initialisé. Le prix haut est-il au dessus de notre prix de vente ? 100760 Oui, le prix est à 101000
             if TrailingStopSell == 0 and c.high > sellPrice:
-                ### c.high est supérieur à notre entrée sellPrice, on met à jour EntryMaxPrice avec la valeur la plus haute du prix 103000
+                ### c.high est supérieur à notre entrée sellPrice, on met à jour EntryMaxPrice avec la valeur la plus haute du prix 101000
                 EntryMaxPrice = c.high
-                ### Calcul du Trailing Stop Sell, 103000 * (1 - 0.009) (PCTTRAILINGSTOP) = 102073
+                ### Calcul du Trailing Stop Sell, 101000 * (1 - 0.008) (PCTTRAILINGSTOP) = 100192
                 TrailingStopSell = EntryMaxPrice * (1 - PCTTRAILINGSTOP)
             ### Trailing Stop supérieur à 0, le programme est en phase de vente. Trailing Stop positionné
             if TrailingStopSell > 0:
-                ### Est-ce que le prix continue d'augmenter ? Oui, le prix est à 104000
+                ### Est-ce que le prix continue d'augmenter ? Oui, le prix est à 103000
                 if c.high > EntryMaxPrice:
-                    ### c.high est inférieur à notre entrée Max Price, on met à jour EntryMaxPrice avec la valeur la plus basse du prix 104000
+                    ### c.high est inférieur à notre entrée Max Price, on met à jour EntryMaxPrice avec la valeur la plus haute du prix 103000
                     EntryMaxPrice = c.high
-                    ### Recalcul du Trailing Stop suivant la tendance vers le haut 104000 * (1 - 0.009) (PCTTRAILINGSTOP) = 103064
+                    ### Recalcul du Trailing Stop suivant la tendance vers le haut 103000 * (1 - 0.008) (PCTTRAILINGSTOP) = 102176
                     TrailingStopSell = EntryMaxPrice * (1 - PCTTRAILINGSTOP)
-                    #print(f"Changement de la valeur du Stop Loss Vente - Trailing Stop {c.timestamp} | {EntryMaxPrice} | {TrailingStopSell}")
+                    print(f"{c.timestamp} - Changement de la valeur du Stop Loss Vente - Trailing Stop : {TrailingStopSell} | EntryMaxPrice {EntryMaxPrice} | ")
 
-                ### Le prix redescend après la phse de monté, est-ce que le prix low de la bougie est en dessous de 103064
+                ### Le prix redescend après la phse de monté, est-ce que le prix low de la bougie est en dessous de 102176
                 if c.low <= TrailingStopSell:
-                    ### Oui, le prix est repassé au dessus, vente réalisé.
+                    ### Oui, le prix est repassé en dessous, vente réalisé.
                     sell = True
                     ### Calcul rapide de la balance après vente du BTC au prix
                     balance = BTC * TrailingStopSell
-                    print(f"Vente au prix de {TrailingStopSell} | {c.low} | {c.timestamp}")
+                    print(f"{c.timestamp} - Vente au prix de {TrailingStopSell}")
 
                     ### Valeur pour graphique
                     sell_idx.append(i)
                     sell_price.append(TrailingStopSell)
 
-        ### Une vente a t'elle eu lieu ?
+        ### Une vente a t'elle eue lieu ?
         if sell:
             ### Oui, réinitialisation complète de toutes les variables d'achat et de vente.
             maxPrice = 0.0
@@ -262,7 +262,7 @@ def backtestTrailing(candles):
         equity_idx.append(i)
         equity_curve.append(equity)
 
-    print(f"Balance : {balance}, BTC : {BTC}")
+    print(f"Balance : {balance}")
 
     return {
         "balance": balance,
@@ -332,14 +332,27 @@ def readFileBacktest(candles):
     
 
 def main():
-    filepath = "BTCUSDT_2025_01_01-07_avg5s.csv"
+    print("bactest trailing stop dataset 1 minute")
+    filepath = "BTCUSDT_1m_2025_01.csv"
     candles = load_candles(filepath)
-    readFileBacktest(candles)
+    #readFileBacktest(candles)
+    bt_result = backtestTrailing(candles)
+    plot_backtest(candles, bt_result)
+
+    print("bactest trailing stop dataset 5 secondes")
+    filepath = "BTCUSDT_2025_01_avg5s.csv"
+    candles = load_candles(filepath)
+    #readFileBacktest(candles)
+    bt_result = backtestTrailing(candles)
+    plot_backtest(candles, bt_result)
+
+    print("bactest simple dataset 5 secondes")
+    filepath = "BTCUSDT_2025_01_avg5s.csv"
+    candles = load_candles(filepath)
+    #readFileBacktest(candles)
     bt_result = backtestSimple(candles)
     plot_backtest(candles, bt_result)
 
-    bt_result = backtestTrailing(candles)
-    plot_backtest(candles, bt_result)
 
 if __name__ == "__main__":
     main()
