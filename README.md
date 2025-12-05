@@ -47,9 +47,10 @@ Chaque dossier ci-dessous correspond à un article de fond publié sur notre blo
 
 ---
 
-### **Avertissement :** Ce code est fourni à titre éducatif et analytique uniquement. Le trading comporte des risques et n'est pas adapté à tous. Market5s n'est pas un conseiller financier.
+### **Avertissement :** 
+Ce code est fourni à titre éducatif et analytique uniquement. Le trading comporte des risques et n'est pas adapté à tous. Market5s n'est pas un conseiller financier.
 
 [Lien vers l'Analyse OHLCV]: https://market5s.com/blogs/trading-data/analyse-ohlcv-bitcoin-a-5-secondes-notre-premier-notebook-kaggle
-[Lien vers backtest trailing stop]:
+[Lien vers backtest trailing stop]: https://market5s.com/blogs/trading-data/analyse-ohlcv-bitcoin-a-5-secondes-notre-premier-notebook-kaggle
 [Kaggle]: https://www.kaggle.com/market5s/datasets
 [X/Twitter]: https://x.com/market5s
