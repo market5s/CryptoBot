@@ -33,7 +33,7 @@ Chaque dossier ci-dessous correspond à un article de fond publié sur notre blo
 ## 🔗 Pour aller plus loin
 
 * **Notre Blog Market5s :** Visitez notre blog pour des tutoriels complets, des analyses techniques, et des études de cas sur les données de **prix** et l'AlgoTrading.
-    > **[market5s.com/blog](https://market5s.com/blogs/trading-data)**
+    > **[market5s.com/blog](https://market5s.com/blogs/trading-data-dev)**
 * **Nos Datasets :** Accédez à nos jeux de données historiques uniques sur **[Kaggle](https://www.kaggle.com/market5s/datasets)** pour reproduire nos analyses.
 * **Suivez-nous sur X :** Pour des mises à jour rapides et des échanges, suivez-nous sur **[X/Twitter](https://x.com/market5s)**.
 
