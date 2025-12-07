@@ -41,7 +41,7 @@ Chaque dossier ci-dessous correspond à un article de fond publié sur notre blo
 
 ## ⚙️ Comment Utiliser ce Code
 
-1.  **Cloner le dépôt :** `git clone https://github.com/Market5s/Nom-De-Votre-Depot.git`
+1.  **Cloner le dépôt :** `git clone https://github.com/Market5s/CryptoBot.git`
 2.  **Installer les dépendances :** Consultez le fichier `requirements.txt` ou les notes du dossier spécifique (généralement `pandas`, `matplotlib`).
 3.  **Lisez l'article du blog** correspondant pour comprendre le contexte, la méthodologie et les bonnes pratiques avant d'exécuter le script.
 
